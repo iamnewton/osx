@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+DIR="/usr/local/opt/osx"
+GITHUB_USER="chrisopedia"
+
+# Check for git; install git
+if [ ! $(type -P 'git') ]; then
+    printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Installing Git"
+    brew install git
+fi
+
+# If missing, download and extract the osx repository
+if [[ ! -d "${DIR}" ]]; then
+
+    # no bash directory found
+    printf "$(tput bold ; tput setaf 3)⚠ Warning: $(tput sgr0)%s!\n" "No ${DIR} found"
+
+    # create directory
+    printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Creating directory at ${DIR}"
+    mkdir -p "${DIR}"
+
+    # Download the repository as a tarball
+    printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Downloading repository to /tmp directory"
+    curl -#fLo /tmp/osx.tar.gz "https://github.com/${GITHUB_USER}/osx/tarball/master"
+
+    # Extract to the osx directory
+    printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Extracting files to ${DIR}"
+    tar -zxf /tmp/osx.tar.gz --strip-components 1 -C "${DIR}"
+
+    # Remove the tarball
+    printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Removing tarball from /tmp directory"
+    rm -rf /tmp/osx.tar.gz
+
+    printf "$(tput setaf 2)✓ Success: $(tput sgr0)%s.\n" "${DIR} created, repository downloaded and extracted"
+fi
+
+# Change to the osx directory
+cd "${DIR}"
+
+# Pull down the latest changes
+printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Pulling down latest changes"
+git pull --rebase origin master
+
+printf "$(tput setaf 6)┃ $(tput sgr0)$(tput setaf 7)%s...$(tput sgr0)\n" "Symlinking ${DIR}/bin/osx to /usr/local/bin/osx"
+ln -fs "${DIR}/bin/osx" "/usr/local/bin/osx"
+
+if [ -h "/usr/local/bin/osx" ]; then
+    printf "$(tput setaf 2)✓ Success: $(tput sgr0)%s.\n" "osx has been installed"
+fi
