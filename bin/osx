@@ -28,15 +28,6 @@ sudo systemsetup -setrestartpowerfailure on > /dev/null
 # Restart automatically if the computer freezes
 sudo systemsetup -setrestartfreeze on > /dev/null
 
-# Set the computer name
-printf "$(tput setaf 3)==> %s?$(tput sgr0) " "What would you like to name your computer"
-read COMPUTER_NAME
-
-if [[ ! -z "${COMPUTER_NAME}" ]]; then
-	sudo systemsetup -setcomputername "${COMPUTER_NAME}" &> /dev/null
-	sudo systemsetup -setlocalsubnetname "${COMPUTER_NAME}" &> /dev/null
-fi
-
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
 
@@ -235,10 +226,6 @@ defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
 # Require password immediately after sleep or screen saver begins
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
-
-# Save screenshots to the Pictures folder
-defaults write com.apple.screencapture location -string "${HOME}/Pictures/Screenshots"
-defaults write com.developer.app NSUserKeyEquivalents -dict-add "Menu Item" -string "@$~^k"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
@@ -571,13 +558,6 @@ sudo mdutil -E / > /dev/null
 
 # Terminal: only use UTF-8
 defaults write com.apple.terminal StringEncodings -array 4
-
-# Terminal: set default theme
-open "${HOME}/.dotfiles/conf/base16/terminal/Base16 Eighties Dark.terminal"
-# Wait a bit to make sure the theme is loaded
-sleep 1 
-defaults write com.apple.terminal "Default Window Settings" -string "Base 16 Eighties Dark"
-defaults write com.apple.terminal "Startup Window Settings" -string "Base 16 Eighties Dark"
 
 # Terminal: enable “focus follows mouse” for Terminal.app and all X11 apps
 # i.e. hover over a window and start typing in it without clicking first
