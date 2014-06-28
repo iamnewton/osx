@@ -42,7 +42,7 @@ Inspiration and code was taken from many sources, including:
 
 * * *
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/chrisopedia/osx/trend.png)](https://bitdeli.com/free "Bitdeli Badge") [![Stories in Ready](https://badge.waffle.io/chrisopedia/osx.png?label=Ready)](http://waffle.io/chrisopedia/osx) [![Donate on Gittip](http://img.shields.io/gittip/alanhamlett.png)](https://www.gittip.com/chrisopedia/) [![Version 1.1.0](http://img.shields.io/badge/version-1.1.0-brightgreen.svg)](https://github.com/chrisopedia/bash/releases/tag/1.1.0) [![MIT License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/chrisopedia/osx/blob/master/LICENSE.md)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/chrisopedia/osx/trend.png)](https://bitdeli.com/free "Bitdeli Badge") [![Stories in Ready](https://badge.waffle.io/chrisopedia/osx.png?label=Ready)](http://waffle.io/chrisopedia/osx) [![Donate on Gittip](http://img.shields.io/gittip/alanhamlett.png)](https://www.gittip.com/chrisopedia/) [![Version 1.2.0](http://img.shields.io/badge/version-1.2.0-brightgreen.svg)](https://github.com/chrisopedia/bash/releases/tag/1.2.0) [![MIT License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/chrisopedia/osx/blob/master/LICENSE.md)
 
 [bin]: https://github.com/chrisopedia/clone-all/blob/master/clone-all
 [download]: https://github.com/chrisopedia/clone-all/archive/master.zip
