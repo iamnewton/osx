@@ -1,7 +1,53 @@
 #!/usr/bin/env bash
 
-# Set custom OS X defaults
-# See: http://mths.be/osx
+DIR="/usr/local/opt/osx"
+usage="$(basename "$0"): usage: $(basename "$0") [-h|--help] [-v|--version] [--prefix]"
+
+# Test for known flags
+for opt in "$@"
+do
+	case "$opt" in
+		-h | --help) # Help text
+			printf '\n'
+			printf 'Options\n'
+			printf '\n'
+			printf '\t-h, --help              Print this help text\n'
+			printf '\t--prefix                Display install path\n'
+			printf '\t-v, --version           Print out the version\n'
+			printf '\n'
+			printf 'Documentation can be found at https://github.com/chrisopedia/dotfiles\n'
+			printf '\n'
+			exit 0
+			;;
+		-t | --test) # test suite using roundup
+			roundup="$(type -P 'roundup')"
+			[[ ! -z $roundup ]] || {
+				printf '%s⊘ Error:%s Roundup is required to run tests. Aborting!\n' "$(tput setaf 1)" "$(tput sgr0)"
+				printf '\n'
+				printf 'Download it at https://github.com/bmizerany/roundup\n'
+				exit 2;
+			}
+			$roundup ./tests/*.sh
+			exit 0
+			;;
+		--prefix)
+			echo "${DIR}"
+			exit
+			;;
+		-v | --version) # Version of software
+			printf 'Version %s\n' "$(git describe --tags)"
+			exit 0
+			;;
+		-*)
+			printf '%sbash: %s: %s: Invalid option\n' "-" "$(basename "$0")" "$1"
+			printf '%s\n' "$usage"
+			exit 1
+			;;
+		*)  # No more options
+			break
+			;;
+	esac
+done
 
 printf "$(tput setaf 3)⚠ Warning:$(tput sgr0) %s!\n" "This will modify your OS X system defaults"
 
@@ -30,6 +76,49 @@ sudo systemsetup -setrestartfreeze on > /dev/null
 
 # Set standby delay to 24 hours (default is 1 hour)
 sudo pmset -a standbydelay 86400
+
+## System Preferences > Energy Saver > Battery
+
+### Computer sleep: Never
+/usr/bin/sudo /usr/bin/pmset -b sleep 0
+
+### Display sleep: 10 min
+/usr/bin/sudo /usr/bin/pmset -b displaysleep 10
+
+### Put the hard disk(s) to sleep when possible: 10 min
+/usr/bin/sudo /usr/bin/pmset -b disksleep 10
+
+### Slightly dim the display when using this power source
+/usr/bin/sudo /usr/bin/pmset -b lessbright 0
+
+### Automatically reduce brightness before display goes to sleep
+/usr/bin/sudo /usr/bin/pmset -b halfdim 0
+
+### Restart automatically if the computer freezes
+/usr/bin/sudo /usr/bin/pmset -b panicrestart 15
+
+## System Preferences > Energy Saver > Power Adapter
+
+### Computer sleep: Never
+/usr/bin/sudo /usr/bin/pmset -c sleep 0
+
+### Display sleep: 10 min
+/usr/bin/sudo /usr/bin/pmset -c displaysleep 10
+
+### Put the hard disk(s) to sleep when possible: 10 min
+/usr/bin/sudo /usr/bin/pmset -c disksleep 10
+
+### Wake for network access
+/usr/bin/sudo /usr/bin/pmset -c womp 1
+
+### Automatically reduce brightness before display goes to sleep
+/usr/bin/sudo /usr/bin/pmset -c halfdim 0
+
+### Start up automatically after a power failure
+/usr/bin/sudo /usr/bin/pmset -c autorestart 1
+
+### Restart automatically if the computer freezes
+/usr/bin/sudo /usr/bin/pmset -c panicrestart 15
 
 
 ###############################################################################
@@ -124,6 +213,9 @@ defaults write NSGlobalDomain com.apple.springing.enabled -bool true
 # Disable feedback when sound changes
 defaults write NSGlobalDomain com.apple.sound.beep.feedback -bool false
 
+# Play user interface sound effects
+defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
+
 # Set Help Viewer windows to non-floating mode
 defaults write com.apple.helpviewer DevMode -bool true
 
@@ -136,6 +228,23 @@ defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 # Reveal computer name, OS X version, IP address when clicking the clock
 # in the login window
 sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+# @TODO: look into what this does; Login Options > Display login window as: Name and password
+#/usr/bin/sudo /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow 'SHOWFULLNAME' -bool true
+
+### Number of recent items: Applications: None
+/usr/bin/osascript -e 'tell application "System Events" to tell appearance preferences to set recent applications limit to 10'
+
+### Number of recent items: Documents: None
+/usr/bin/osascript -e 'tell application "System Events" to tell appearance preferences to set recent documents limit to 10'
+
+### Number of recent items: Servers: None
+/usr/bin/osascript -e 'tell application "System Events" to tell appearance preferences to set recent servers limit to 10'
+
+### Enable access for assistive devices
+# /usr/bin/osascript -e 'tell application "System Events" to set UI elements enabled to true'
+/bin/echo -n 'a' | /usr/bin/sudo /usr/bin/tee /private/var/db/.AccessibilityAPIEnabled > /dev/null 2>&1
+/usr/bin/sudo /bin/chmod 444 /private/var/db/.AccessibilityAPIEnabled
 
 
 ###############################################################################
@@ -185,6 +294,9 @@ defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int
 
 # Keyboard: Follow the keyboard focus while zoomed in
 defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+
+# Display: Automatically adjust brightness: off
+defaults write com.apple.BezelServices 'dAuto' -bool false
 
 # Keyboard: Automatically illuminate built-in MacBook keyboard in low light
 defaults write com.apple.BezelServices kDim -bool true
@@ -267,6 +379,9 @@ defaults write com.apple.finder ShowStatusBar -bool true
 # Show path bar
 defaults write com.apple.finder ShowPathbar -bool true
 
+# Disble Finder sounds
+defaults write com.apple.finder 'FinderSounds' -bool false
+
 # Allow text selection in Quick Look
 defaults write com.apple.finder QLEnableTextSelection -bool true
 
@@ -313,6 +428,7 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 # Use column view in all Finder windows by default
 # Four-letter codes for the other view modes: `icnv`, `Nlsv`, `Flwv`
 defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+defaults write com.apple.finder 'FXPreferredGroupBy' -string 'Kind'
 
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
@@ -462,6 +578,9 @@ defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebK
 # Show Safari’s bookmarks bar by default
 defaults write com.apple.Safari ShowFavoritesBar -bool true
 
+# Show status bar
+defaults write com.apple.Safari ShowStatusBar -bool true
+
 # Show Safari’s sidebar in Top Sites
 defaults write com.apple.Safari ShowSidebarInTopSites -bool true
 
@@ -516,6 +635,14 @@ defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
 # Hide Spotlight tray-icon (and subsequent helper)
 # Requires you log out
 sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+
+### Spotlight menu keyboard shortcut: none
+/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Delete AppleSymbolicHotKeys:64' > /dev/null 2>&1
+/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Add AppleSymbolicHotKeys:64:enabled bool false'
+
+### Spotlight window keyboard shortcut: none
+/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Delete AppleSymbolicHotKeys:65' > /dev/null 2>&1
+/usr/libexec/PlistBuddy "$HOME/Library/Preferences/com.apple.symbolichotkeys.plist" -c 'Add AppleSymbolicHotKeys:65:enabled bool false'
 
 # Misc: enable Dictionary results
 defaults write com.apple.spotlight DictionaryLookupEnabled -bool true
@@ -612,6 +739,9 @@ defaults write com.apple.dock dashboard-in-overlay -bool true
 # Dashboard: enable dev mode (allows keeping widgets on the desktop)
 defaults write com.apple.dashboard devmode -bool true
 
+# TextEdit: change default fixed width font to 16px
+defaults write com.apple.TextEdit 'NSFixedPitchFontSize' -string '16'
+
 # TextEdit: use plain text mode for new documents
 defaults write com.apple.TextEdit RichText -int 0
 
@@ -668,6 +798,11 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 # Disable continuous spell checking
 # defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
 
+# Auto save chats
+defaults write com.apple.iChat 'SaveConversationsOnClose' -bool true
+
+# Don't use same status for all accounts
+defaults write com.apple.iChat 'AllowStatusPerAccount' -bool true
 
 ###############################################################################
 # Kill affected applications                                                  #
