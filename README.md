@@ -6,6 +6,9 @@ The average life cycle of a computer for me is just about 3 years; which means e
 
 Inspired by a [few peoples](#acknowledgements) `.dotfiles` scripts, I decided to create this library for installing and setting up my OS X machines.
 
+[![Version 1.3.0](http://img.shields.io/badge/version-1.3.0-brightgreen.svg)](https://github.com/chrisopedia/bash/releases/tag/1.3.0) [![MIT License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/chrisopedia/osx/blob/master/LICENSE.md)[![Stories in Ready](https://badge.waffle.io/chrisopedia/osx.png?label=Ready)](http://waffle.io/chrisopedia/osx)
+
+
 **Why a separate repository?**
 
 I didn't like the connection between setting up your development machine, or `.dotfiles` and setting up your computer with various software and settings.  It appeared to me to be better served from a separate repository so that I could run both my dotfiles install and osx scripts concurrently if needed; or even better I didn't have to install my dotfiles on a machine that just needed some synchronized OS X settings.
@@ -39,10 +42,6 @@ Inspiration and code was taken from many sources, including:
 * [@sindresorhus](https://github.com/sindresorhus) (Sindre Sorhus) https://github.com/sindresorhus/quick-look-plugins
 * [@necolas](https://github.com/necolas) (Nicolas Gallagher) https://github.com/necolas/dotfiles
 * [@mathiasbynens](https://github.com/mathiasbynens) (Mathias Bynens) http://mths.be/osx
-
-* * *
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/chrisopedia/osx/trend.png)](https://bitdeli.com/free "Bitdeli Badge") [![Stories in Ready](https://badge.waffle.io/chrisopedia/osx.png?label=Ready)](http://waffle.io/chrisopedia/osx) [![Donate on Gittip](http://img.shields.io/gittip/alanhamlett.png)](https://www.gittip.com/chrisopedia/) [![Version 1.2.0](http://img.shields.io/badge/version-1.2.0-brightgreen.svg)](https://github.com/chrisopedia/bash/releases/tag/1.2.0) [![MIT License](http://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/chrisopedia/osx/blob/master/LICENSE.md)
 
 [bin]: https://github.com/chrisopedia/clone-all/blob/master/clone-all
 [download]: https://github.com/chrisopedia/clone-all/archive/master.zip
