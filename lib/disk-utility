@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+setup_disk_utility() {
+	# Disk Utility: enable the debug menu
+	defaults write com.apple.DiskUtility DUDebugMenuEnabled -bool true
+	defaults write com.apple.DiskUtility advanced-image-options -bool true
+}
+
+setup_disk_utility

@@ -1,0 +1,295 @@
+#!/usr/bin/env bash
+
+setup_system() {
+	# Never go into computer sleep mode
+	sudo systemsetup -setcomputersleep Off > /dev/null
+
+	# Set display sleep mode to 15 minutes
+	sudo systemsetup -setdisplaysleep 15 > /dev/null
+
+	# Restart automatically if power failure
+	sudo systemsetup -setrestartpowerfailure on > /dev/null
+
+	# Restart automatically if the computer freezes
+	sudo systemsetup -setrestartfreeze on > /dev/null
+
+	# Set standby delay to 24 hours (default is 1 hour)
+	sudo pmset -a standbydelay 86400
+
+	## System Preferences > Energy Saver > Battery
+
+	### Computer sleep: Never
+	/usr/bin/sudo /usr/bin/pmset -b sleep 0
+
+	### Display sleep: 10 min
+	/usr/bin/sudo /usr/bin/pmset -b displaysleep 10
+
+	### Put the hard disk(s) to sleep when possible: 10 min
+	/usr/bin/sudo /usr/bin/pmset -b disksleep 10
+
+	### Slightly dim the display when using this power source
+	/usr/bin/sudo /usr/bin/pmset -b lessbright 0
+
+	### Automatically reduce brightness before display goes to sleep
+	/usr/bin/sudo /usr/bin/pmset -b halfdim 0
+
+	### Restart automatically if the computer freezes
+	/usr/bin/sudo /usr/bin/pmset -b panicrestart 15
+
+	## System Preferences > Energy Saver > Power Adapter
+
+	### Computer sleep: Never
+	/usr/bin/sudo /usr/bin/pmset -c sleep 0
+
+	### Display sleep: 10 min
+	/usr/bin/sudo /usr/bin/pmset -c displaysleep 10
+
+	### Put the hard disk(s) to sleep when possible: 10 min
+	/usr/bin/sudo /usr/bin/pmset -c disksleep 10
+
+	### Wake for network access
+	/usr/bin/sudo /usr/bin/pmset -c womp 1
+
+	### Automatically reduce brightness before display goes to sleep
+	/usr/bin/sudo /usr/bin/pmset -c halfdim 0
+
+	### Start up automatically after a power failure
+	/usr/bin/sudo /usr/bin/pmset -c autorestart 1
+
+	### Restart automatically if the computer freezes
+	/usr/bin/sudo /usr/bin/pmset -c panicrestart 15
+}
+
+setup_ui() {
+	# @TODO: doesn't appear to be working
+	# Menu bar: hide the Time Machine, Volume, User, Displays, Battery and Bluetooth icons
+	for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.* 
+	do
+		defaults write "${domain}" dontAutoLoad -array \
+			"/System/Library/CoreServices/Menu Extras/Battery.menu" \
+			"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+			"/System/Library/CoreServices/Menu Extras/Displays.menu" \
+			"/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
+			"/System/Library/CoreServices/Menu Extras/User.menu" \
+			"/System/Library/CoreServices/Menu Extras/Volume.menu"
+	done
+	defaults write com.apple.systemuiserver menuExtras -array \
+		"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
+		"/System/Library/CoreServices/Menu Extras/Clock.menu"
+
+	# Set Appearance color to graphite
+	# Possible values: 1 => Blue
+	defaults write NSGlobalDomain AppleAquaColorVariant -int 6
+
+	# Enable Menu bar transparency
+	defaults write NSGlobalDomain AppleEnableMenuBarTransparency -bool true
+
+	# Enable subpixel font rendering on non-Apple LCDs
+	defaults write NSGlobalDomain AppleFontSmoothing -int 2
+
+	# Set highlight color to red
+	defaults write NSGlobalDomain AppleHighlightColor -string "1.000000 0.694100 0.549000"
+
+	# Set language and text formats
+	# Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
+	# `Inches`, `en_GB` with `en_US`, and `true` with `false`.
+	defaults write NSGlobalDomain AppleLanguages -array "en" "nl"
+	defaults write NSGlobalDomain AppleLocale -string "en_US@currency=USD"
+	defaults write NSGlobalDomain AppleMeasurementUnits -string "Inches"
+	defaults write NSGlobalDomain AppleMetricUnits -bool false
+
+	# Disable press-and-hold for keys in favor of key repeat
+	defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+	# Show all filename extensions
+	defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+	# Show scrollbars when scrolling
+	# Possible values: `WhenScrolling`, `Automatic` and `Always`
+	defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"
+
+	# Set a blazingly fast keyboard repeat rate
+	defaults write NSGlobalDomain KeyRepeat -int 0
+
+	# Disable automatic termination of inactive apps
+	defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
+
+	# Enable smart dashes 
+	defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool true
+
+	# Enable smart quotes
+	defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool true
+
+	# Enable auto-correct
+	defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool true
+
+	# Disable opening and closing window animations
+	defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
+	# Disable Resume system-wide
+	defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
+
+	# Requires the unidecode library installed via Python
+	# Display ASCII control characters using caret notation in standard text views
+	# Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`
+	# defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
+
+	# Set sidebar icon size to small
+	defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1
+
+	# Increase window resize speed for Cocoa applications
+	defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+
+	# Remove the spring loading delay for directories
+	defaults write NSGlobalDomain com.apple.springing.delay -float 0
+
+	# Enable spring loading for directories
+	defaults write NSGlobalDomain com.apple.springing.enabled -bool true
+
+	# Disable feedback when sound changes
+	defaults write NSGlobalDomain com.apple.sound.beep.feedback -bool false
+
+	# Play user interface sound effects
+	defaults write com.apple.systemsound 'com.apple.sound.uiaudio.enabled' -int 0
+
+	# Set Help Viewer windows to non-floating mode
+	defaults write com.apple.helpviewer DevMode -bool true
+
+	# Automatically quit printer app once the print jobs complete
+	defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+	# Check for software updates daily, not once per week
+	defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+
+	# Reveal computer name, OS X version, IP address when clicking the clock
+	# in the login window
+	sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+	# @TODO: look into what this does; Login Options > Display login window as: Name and password
+	/usr/bin/sudo /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow 'SHOWFULLNAME' -bool true
+
+	### Number of recent items: Applications: None
+	/usr/bin/osascript -e 'tell application "System Events" to tell appearance preferences to set recent applications limit to 10'
+
+	### Number of recent items: Documents: None
+	/usr/bin/osascript -e 'tell application "System Events" to tell appearance preferences to set recent documents limit to 10'
+
+	### Number of recent items: Servers: None
+	/usr/bin/osascript -e 'tell application "System Events" to tell appearance preferences to set recent servers limit to 10'
+
+	### Enable access for assistive devices
+	# /usr/bin/osascript -e 'tell application "System Events" to set UI elements enabled to true'
+	/bin/echo -n 'a' | /usr/bin/sudo /usr/bin/tee /private/var/db/.AccessibilityAPIEnabled > /dev/null 2>&1
+	/usr/bin/sudo /bin/chmod 444 /private/var/db/.AccessibilityAPIEnabled
+}
+
+setup_panels() {
+	# Expand save panel by default
+	defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+
+	# Expand print panel by default
+	defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+
+	# Disable the “Are you sure you want to open this application?” dialog
+	defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+	# Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
+	defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+	# Save to iCloud (not to disk) by default
+	defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool true
+
+	# Disable the crash reporter
+	#defaults write com.apple.CrashReporter DialogType -string "none"
+}
+
+setup_disks() {
+	# Avoid creating .DS_Store files on network volumes
+	defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+	# Disable disk image verification
+	# defaults write com.apple.frameworks.diskimages skip-verify -bool true
+	# defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
+	# defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true
+	defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
+	defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
+}
+
+setup_accessories() {
+	# Bluetooth: increase sound quality for Bluetooth headphones/headsets
+	# http://musings.silvertooth.us/2013/05/bluetooth-audio-and-os-x/
+	defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+	defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool Min (editable)" -int 53
+	defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" -int 35
+	# https://gist.github.com/strathmeyer/4990173
+	defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Max (editable)" 80
+	defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" 48
+	defaults write com.apple.BluetoothAudioAgent "Apple Initial Bitpool (editable)" 40
+	defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool" 48
+	defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Max" 53
+	defaults write com.apple.BluetoothAudioAgent "Negotiated Bitpool Min" 48
+	defaults write com.apple.BluetoothAudioAgent "Stream - Flush Ring on Packet Drop (editable)" 30
+	defaults write com.apple.BluetoothAudioAgent "Stream - Max Outstanding Packets (editable)" 15
+	defaults write com.apple.BluetoothAudioAgent "Stream Resume Delay" "0.75"
+
+	# Keyboard: Follow the keyboard focus while zoomed in
+	defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+
+	# Display: Automatically adjust brightness: off
+	defaults write com.apple.BezelServices 'dAuto' -bool false
+
+	# Keyboard: Automatically illuminate built-in MacBook keyboard in low light
+	defaults write com.apple.BezelServices kDim -bool true
+
+	# Keyboard: Turn off illumination when computer is not used for 5 minutes
+	defaults write com.apple.BezelServices kDimTime -int 300
+
+	# Keyboard: Stop iTunes from responding to the keyboard media keys
+	#launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
+
+	# Trackpad: enable tap to click for this user and for the login screen
+	# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+	# defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+	# defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+	# Trackpad: map bottom right corner to right-click
+	defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
+	defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+	defaults -currentHost write NSGlobalDomain com.apple.trackpad.trackpadCornerClickBehavior -int 1
+	defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryClick -bool true
+
+	# Trackpad: swipe between pages with three fingers
+	defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
+	defaults -currentHost write NSGlobalDomain com.apple.trackpad.threeFingerHorizSwipeGesture -int 1
+	defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 1
+
+	# Trackpad: enable “natural” scrolling
+	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
+
+	# Trackpad: Use scroll gesture with the Ctrl (^) modifier key to zoom
+	defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+	defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+}
+
+
+setup_screen() {
+	# Require password immediately after sleep or screen saver begins
+	defaults write com.apple.screensaver askForPassword -int 1
+	defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+	# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+	defaults write com.apple.screencapture type -string "png"
+
+	# Disable shadow in screenshots
+	defaults write com.apple.screencapture disable-shadow -bool true
+
+	# Enable HiDPI display modes (requires restart)
+	sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+}
+
+setup_system \
+&& setup_ui \
+&& setup_panels \
+&& setup_disks \
+&& setup_accessories \
+&& setup_screen

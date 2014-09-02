@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+setup_contacts() {
+	# Address Book: enable the debug menu in Address Book
+	defaults write com.apple.addressbook ABShowDebugMenu -bool true
+
+	# Address Book: interface text size
+	defaults write com.apple.addressBook ABTextSizeIncrement -int 2
+}
+
+setup_contacts

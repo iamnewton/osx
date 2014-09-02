@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+setup_textedit() {
+	# TextEdit: change default fixed width font to 16px
+	defaults write com.apple.TextEdit 'NSFixedPitchFontSize' -string '16'
+
+	# TextEdit: use plain text mode for new documents
+	defaults write com.apple.TextEdit RichText -int 0
+
+	# TextEdit: open and save files as UTF-8
+	defaults write com.apple.TextEdit PlainTextEncoding -int 4
+	defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
+
+	# TextEdit: disable resume
+	defaults write com.apple.TextEdit ApplePersistenceIgnoreState -bool yes
+}
+
+setup_textedit

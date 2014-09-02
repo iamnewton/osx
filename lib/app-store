@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+setup_app_store() {
+	# Enable the WebKit developer tools
+	defaults write com.apple.appstore WebKitDeveloperExtras -bool true
+
+	# Enable debug menu
+	defaults write com.apple.appstore ShowDebugMenu -bool true
+}
+
+setup_app_store

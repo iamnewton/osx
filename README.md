@@ -6,7 +6,7 @@ The average life cycle of a computer for me is just about 3 years; which means e
 
 Inspired by a [few peoples](#acknowledgements) `.dotfiles` scripts, I decided to create this library for installing and setting up my OS X machines.
 
-[![Version 1.3.0](http://img.shields.io/badge/version-1.3.0-brightgreen.svg)](https://github.com/chrisopedia/bash/releases/tag/1.3.0) [![Stories in Ready](https://badge.waffle.io/chrisopedia/osx.png?label=Ready)](http://waffle.io/chrisopedia/osx)
+[![Version 2.0.0](http://img.shields.io/badge/version-2.0.0-brightgreen.svg)](https://github.com/chrisopedia/bash/releases/tag/2.0.0) [![Stories in Ready](https://badge.waffle.io/chrisopedia/osx.png?label=Ready)](http://waffle.io/chrisopedia/osx)
 
 
 **Why a separate repository?**

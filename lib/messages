@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+setup_messages() {
+	# Disable automatic emoji substitution (i.e. use plain text smileys)
+	defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false
+
+	# Disable smart quotes as it’s annoying for messages that contain code
+	# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
+
+	# Disable continuous spell checking
+	# defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
+
+	# Auto save chats
+	defaults write com.apple.iChat 'SaveConversationsOnClose' -bool true
+
+	# Don't use same status for all accounts
+	defaults write com.apple.iChat 'AllowStatusPerAccount' -bool true
+
+	# Set the Messages view to 'Show as Compact' and 'Show Names'
+	defaults write com.apple.iChat SOTranscriptSettingsDefaultIMChatSettingsPreferences '{ "participantDisplay" = 1; "transcriptStyleID" = com.apple.iChat.Styles.Compact; }';
+}
+
+setup_messages

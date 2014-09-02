@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+setup_preview() {
+	# Preview: disable resume
+	defaults write com.apple.Preview ApplePersistenceIgnoreState -bool yes
+}
+
+setup_preview

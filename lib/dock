@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+setup_dock() {
+	# Dock: enable highlight hover effect for the grid view of a stack
+	defaults write com.apple.dock mouse-over-hilite-stack -bool true
+
+	# Dock: stop icons from bouncing
+	defaults write com.apple.dock no-bouncing -bool true
+
+	# Dock: position the Dock on the bottom
+	defaults write com.apple.dock orientation bottom
+
+	# Dock: set the icon size of Dock items to 36 pixels
+	defaults write com.apple.dock tilesize -int 36
+
+	# Dock: minimize windows into their application’s icon
+	defaults write com.apple.dock minimize-to-application -bool true
+
+	# Dock: enable spring loading for all Dock items
+	defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
+
+	# Dock: use the genie effect for window minimizing
+	defaults write com.apple.dock mineffect genie
+
+	# Dock: hide indicator lights for open applications in the Dock
+	defaults write com.apple.dock show-process-indicators -bool false
+
+	# Dock: wipe all (default) app icons
+	# This is only really useful when setting up a new Mac, or if you don’t use
+	# the Dock to launch apps.
+	defaults write com.apple.dock persistent-apps -array
+
+	# Dock: don’t animate opening applications
+	defaults write com.apple.dock launchanim -bool false
+
+	# Dock: remove the auto-hiding Dock delay
+	defaults write com.apple.dock autohide-delay -float 0
+
+	# Dock: remove the animation when hiding/showing
+	defaults write com.apple.dock autohide-time-modifier -float 0
+
+	# Dock: automatically hide and show
+	defaults write com.apple.dock autohide -bool true
+
+	# Dock: make icons of hidden applications translucent
+	defaults write com.apple.dock showhidden -bool true
+
+	# Dock: disable magnification
+	defaults write com.apple.dock magnification -bool false
+
+	# Dock: show only running applications
+	defaults write com.apple.dock static-only -bool true
+
+	# Dock: add a spacer to the left side (where the applications are)
+	#defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
+
+	# Dock: add a spacer to the right side (where the Trash is)
+	#defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
+
+	# Mission Control: speed up Mission Control animations
+	defaults write com.apple.dock expose-animation-duration -float 0.1
+
+	# Mission Control: don’t group windows by application
+	# (i.e. use the old Exposé behavior instead)
+	defaults write com.apple.dock expose-group-by-app -bool false
+
+	# Launchpad: reset
+	find ~/Library/Application\ Support/Dock -name "*.db" -maxdepth 1 -delete
+
+	# Spaces: don’t automatically rearrange Spaces based on most recent use
+	defaults write com.apple.dock mru-spaces -bool false
+
+	# Hot corners
+	# Possible values:
+	#  0: no-op
+	#  2: Mission Control
+	#  3: Show application windows
+	#  4: Desktop
+	#  5: Start screen saver
+	#  6: Disable screen saver
+	#  7: Dashboard
+	# 10: Put display to sleep
+	# 11: Launchpad
+	# 12: Notification Center
+	# Top left screen corner → Start screen saver
+	defaults write com.apple.dock wvous-tl-corner -int 5
+	defaults write com.apple.dock wvous-tl-modifier -int 0
+	# Top right screen corner → Notification Center
+	defaults write com.apple.dock wvous-tr-corner -int 12
+	defaults write com.apple.dock wvous-tr-modifier -int 0
+	# Bottom left screen corner → Disable screen saver
+	defaults write com.apple.dock wvous-bl-corner -int 6
+	defaults write com.apple.dock wvous-bl-modifier -int 0
+	# Bottom right screen corner → Show application windows
+	defaults write com.apple.dock wvous-br-corner -int 3
+	defaults write com.apple.dock wvous-br-modifier -int 3
+
+	# Launchpad: add iOS Simulator
+	sudo ln -sf /Applications/Xcode.app/Contents/Applications/iPhone\ Simulator.app /Applications/iOS\ Simulator.app
+}
+
+setup_dock
