@@ -167,9 +167,10 @@ restart_machine() {
 setup_apps() {
 	local app
 	local apps="$PROGDIR/lib/*"
+
 	for app in apps
 	do
-		source app
+		source "$app"
 	done
 }
 
