@@ -2,7 +2,7 @@
 
 # constants
 readonly PROGNAME=$(basename $0)
-readonly PROGDIR=$(dirname $0)
+readonly PROGDIR="/usr/local/opt/osx"
 readonly VERSION=$(cat "$PROGDIR/VERSION.md")
 readonly TODAY=$(date +"%m-%d-%y")
 readonly ARGS="$@"
