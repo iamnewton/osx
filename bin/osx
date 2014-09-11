@@ -168,7 +168,7 @@ setup_apps() {
 	local app
 	local apps="$PROGDIR/lib/*"
 
-	for app in apps
+	for app in $apps
 	do
 		source "$app"
 	done
