@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # constants
-readonly PROGNAME=$(basename $0)
+readonly PROGNAME="$(basename "$0")"
 readonly PROGDIR="/usr/local/opt/osx"
 readonly VERSION=$(cat "$PROGDIR/VERSION.md")
 readonly TODAY=$(date +"%m-%d-%y")
@@ -39,23 +39,23 @@ _print_help() {
 	cat <<- EOF
 	usage: $PROGNAME [options]
 
-	Update dotfiles with any new dependencies
+	Set OS X defaults
 
 	OPTIONS:
-	    -h --help              Show this help
-	    -t --test              Run unit test to check the program
-	    -v --version           Display version
-	    --prefix               Display install path. Default: $PROGDIR
+    -h --help              Show this help
+    -t --test              Run unit test to check the program
+    -v --version           Display version
+    --prefix               Display install path. Default: $PROGDIR
 
 	Examples:
-	    Run all tests:
-	    $PROGNAME --test
+    Run all tests:
+    $PROGNAME --test
 
-	    Print current version:
-	    $PROGNAME --version
+    Print current version:
+    $PROGNAME --version
 
-	    Run:
-	    $PROGNAME
+    Run:
+    $PROGNAME
 	EOF
 }
 _print_directory() {
@@ -95,7 +95,7 @@ cmdline() {
 	done
 
 	#Reset the positional parameters to the short options
-	eval set -- $args
+	eval set -- "$args"
 
 	while getopts ":ehptv" OPTION
 	do
@@ -137,7 +137,7 @@ setup_permissions() {
 
 	# Keep-alive: update existing `sudo` time stamp until 'osxdefaults' has finished
 	while true
-	do 
+	do
 		sudo -n true
 		sleep 60
 		kill -0 "$$" || exit
@@ -170,12 +170,12 @@ setup_apps() {
 
 	for app in $apps
 	do
-		source "$app"
+		bash "$app"
 	done
 }
 
 main() {
-	cmdline $ARGS
+	cmdline "$ARGS"
 
 	printf "%s⚠ Warning:%s This will modify your OS X system defaults!\n" "$(tput setaf 3)" "$(tput sgr0)" \
 	&& setup_permissions
