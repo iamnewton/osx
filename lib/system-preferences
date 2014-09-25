@@ -58,12 +58,15 @@ setup_system() {
 
 	### Restart automatically if the computer freezes
 	/usr/bin/sudo /usr/bin/pmset -c panicrestart 15
+
+	# Use OpenDNS servers
+	sudo networksetup -setdnsservers Wi-Fi 208.67.220.220 208.67.222.222
 }
 
 setup_ui() {
 	# @TODO: doesn't appear to be working
 	# Menu bar: hide the Time Machine, Volume, User, Displays, Battery and Bluetooth icons
-	for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.* 
+	for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*
 	do
 		defaults write "${domain}" dontAutoLoad -array \
 			"/System/Library/CoreServices/Menu Extras/Battery.menu" \
@@ -114,7 +117,7 @@ setup_ui() {
 	# Disable automatic termination of inactive apps
 	defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true
 
-	# Enable smart dashes 
+	# Enable smart dashes
 	defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool true
 
 	# Enable smart quotes
@@ -288,8 +291,8 @@ setup_screen() {
 }
 
 setup_system \
-&& setup_ui \
-&& setup_panels \
-&& setup_disks \
-&& setup_accessories \
-&& setup_screen
+	&& setup_ui \
+	&& setup_panels \
+	&& setup_disks \
+	&& setup_accessories \
+	&& setup_screen
