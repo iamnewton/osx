@@ -92,6 +92,8 @@ setup_ui() {
 
 	# Set highlight color to red
 	defaults write NSGlobalDomain AppleHighlightColor -string "1.000000 0.694100 0.549000"
+	# Set highlight color to green https://github.com/mathiasbynens/dotfiles/blob/master/.osx#L44
+	# defaults write NSGlobalDomain AppleHighlightColor -string "0.764700 0.976500 0.568600"
 
 	# Set language and text formats
 	# Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
