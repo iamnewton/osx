@@ -3,12 +3,6 @@
 setup_itunes() {
 	# Make ⌘ + F focus the search input
 	defaults write com.apple.iTunes NSUserKeyEquivalents -dict-add "Target Search Field" "@F"
-
-	# Disable the Ping sidebar
-	defaults write com.apple.iTunes disablePingSidebar -bool true
-
-	# Disable all the other Ping stuff
-	defaults write com.apple.iTunes disablePing -bool true
 }
 
 setup_itunes
