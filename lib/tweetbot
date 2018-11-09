@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+setup_tweetbot() {
+	# Bypass the annoyingly slow t.co URL shortener
+	defaults write com.tapbots.TweetbotMac OpenURLsDirectly -bool true
+}
+
+setup_tweetbot
