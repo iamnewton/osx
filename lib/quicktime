@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+setup_quicktime() {
+	# Auto-play videos when opened with QuickTime Player
+	defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool true
+}
+
+setup_quicktime
