@@ -147,8 +147,8 @@ setup_permissions() {
 killall_apps() {
 	local app
 	for app in "Activity Monitor" "Address Book" "Calendar" "Contacts" \
-		"Dashboard" "Dock" "Finder" "Calendar" "iTunes" "Mail" "Messages" \
-		"Preview" "Safari" "SystemUIServer" "TextEdit"
+		"Dashboard" "Dock" "Finder" "iTunes" "Mail" "Messages" "Photos" \
+		"Preview" "QuickTime Player" "App Store" "Safari" "SystemUIServer" "TextEdit"
 	do
 		killall "${app}" > /dev/null 2>&1
 	done
