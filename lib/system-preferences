@@ -34,7 +34,7 @@ setup_system() {
 	/usr/bin/sudo /usr/bin/pmset -b halfdim 0
 
 	### Restart automatically if the computer freezes
-	/usr/bin/sudo /usr/bin/pmset -b panicrestart 15
+	# /usr/bin/sudo /usr/bin/pmset -b panicrestart 15
 
 	## System Preferences > Energy Saver > Power Adapter
 
@@ -57,7 +57,7 @@ setup_system() {
 	/usr/bin/sudo /usr/bin/pmset -c autorestart 1
 
 	### Restart automatically if the computer freezes
-	/usr/bin/sudo /usr/bin/pmset -c panicrestart 15
+	# /usr/bin/sudo /usr/bin/pmset -c panicrestart 15
 
 	# Use OpenDNS servers
 	sudo networksetup -setdnsservers Wi-Fi 208.67.220.220 208.67.222.222
@@ -191,9 +191,11 @@ setup_ui() {
 setup_panels() {
 	# Expand save panel by default
 	defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+	defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
 	# Expand print panel by default
 	defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+	defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
 	# Disable the “Are you sure you want to open this application?” dialog
 	defaults write com.apple.LaunchServices LSQuarantine -bool false
@@ -238,7 +240,7 @@ setup_accessories() {
 	defaults write com.apple.BluetoothAudioAgent "Stream Resume Delay" "0.75"
 
 	# Keyboard: Follow the keyboard focus while zoomed in
-	defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
+	# defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
 	# Display: Automatically adjust brightness: off
 	defaults write com.apple.BezelServices 'dAuto' -bool false
@@ -272,8 +274,8 @@ setup_accessories() {
 	defaults write NSGlobalDomain com.apple.swipescrolldirection -bool true
 
 	# Trackpad: Use scroll gesture with the Ctrl (^) modifier key to zoom
-	defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-	defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
+	# defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+	# defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
 }
 
 
