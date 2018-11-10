@@ -8,9 +8,6 @@ setup_terminal() {
 	# i.e. hover over a window and start typing in it without clicking first
 	#defaults write com.apple.terminal FocusFollowsMouse -bool true
 	#defaults write org.x.X11 wm_ffm -bool true
-	
-	# Don’t display the annoying prompt when quitting iTerm
-	defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 }
 
 setup_terminal
