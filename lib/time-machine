@@ -5,7 +5,7 @@ setup_time_machine() {
 	defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 	# Disable local backups
-	hash tmutil &> /dev/null && sudo tmutil disablelocal
+	hash tmutil &> /dev/null && sudo tmutil disable
 }
 
 setup_time_machine
