@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DIR="/usr/local/opt/osx"
-GITHUB_USER="chrisopedia"
+GITHUB_USER="iamnewton"
 
 # Check for git; install git
 if [ ! $(type -P 'git') ]; then
